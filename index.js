@@ -10,9 +10,13 @@ const PORT = 8000;
 // Server
 const app = express();
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 app.get("/busqueda", (req, res) => {
-  const url = `${endpointUrl}?query=${req.query["query"]}`;
-  console.log(req.query.query);
+  const url = `${endpointUrl}?query=${encodeURIComponent(req.query["search"])}`;
+  console.log(req.query["search"]);
   https.get(
     url,
     { headers: { Authorization: ` Bearer ${token}` } },
